@@ -1,0 +1,26 @@
+//
+//  message.pch
+//  LMMessageUI
+//
+//  Created by MoHuilin on 2017/9/26.
+//  Copyright © 2017年 connect. All rights reserved.
+//
+
+#ifndef message_pch
+#define message_pch
+
+#define SOCKET_TIME_OUT 20
+#define SOCKET_READ_TIME_OUT 20
+#define OVER_TIME_CODE 20
+
+
+#define kSystemIdendifier @"connect_id"
+
+
+/// 导入
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import "Adapter.h"
+#endif
+
+#endif /* message_pch */
