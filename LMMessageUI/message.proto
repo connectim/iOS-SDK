@@ -1,0 +1,544 @@
+syntax = "proto3";
+
+
+// socket
+message NewConnection {
+bytes salt = 1;
+bytes pub_key=2;
+}
+
+message IMRequest {
+string pub_key = 1;
+string sign = 2;
+GcmData cipher_data = 3;
+}
+
+message DeviceInfo {
+string deviceId=1;
+string deviceName=2;
+string locale = 3;
+int32 cv = 4;
+string uuid=5;
+ChatCookieData chatCookieData = 6;
+}
+
+message RemoveRelationship {
+string uid = 1;
+}
+
+message SettingFriendInfo {
+string uid = 1;
+string remark = 2;
+bool common = 3;
+}
+
+message AddFriendRequest {
+string uid = 1;
+string tips = 2;
+int32 source = 3;
+}
+
+message ExternalBillingToken {
+string token = 1;
+}
+message RedPackageToken {
+string token = 1;
+}
+
+message SyncRelationship {
+string version = 1;
+}
+
+message AcceptFriendRequest {
+string uid = 1;
+int32 source=2;
+}
+
+message FriendChatCookie {
+string uid = 1;
+string pubkey = 2;
+}
+
+message FriendInfo {
+string username = 1;
+string avatar = 2;
+string pub_key = 3;
+string uid = 4;
+bool common = 5;
+int32 source = 6;
+string remark = 7;
+string connect_id = 8;
+}
+
+
+message RelationShip {
+string version = 1;
+repeated FriendInfo friends = 2;
+}
+
+message UserCommonGroups {
+repeated GroupInfo groups=1;
+}
+
+message GroupMember {
+string username=1;
+string avatar=2;
+string uid=3;
+int32 role=4;
+string nick=5;
+string pub_key=6;
+string connect_id=7;
+}
+
+message Group {
+string identifier = 1;
+string name=2;
+string summary=3;
+bool public =4;
+bool reviewed = 5;
+string avatar = 6;
+}
+
+
+message GroupInfo {
+Group group=1;
+repeated GroupMember members=2;
+string backup=3;
+string ecdh=4;
+}
+
+message SyncUserRelationship {
+RelationShip relationShip=1;
+UserCommonGroups userCommonGroups=2;
+}
+
+message SyncBadge {
+int32 badge=1;
+}
+
+message NOInterest {
+string uid = 1;
+}
+
+message DeviceToken {
+string apns_device_token=1;
+string xg_device_token=2;
+string gcm_device_token=3;
+string push_type=4;
+string device_id=5;
+string locale=6;
+}
+
+message UpdateSession {
+string uid = 1;
+bool mute = 2;
+}
+
+message CommandMessage {
+string command_id = 1;
+int32 command_extension = 2;
+IMTransferData transfer_data = 3;
+ChatCookieData cookieData = 4; //上传chatcookie使用
+ChatCacheCookie chatCookie = 5;//上传chatcookie使用
+}
+
+
+message MessageDidRead {
+string msg_id = 1;
+string msg_ower = 2;
+}
+
+message CommandStauts{
+int32 status=1;
+}
+
+message ReceiveFriendRequest {
+UserInfo sender = 1;
+string tips = 2;
+int32 source = 3;
+}
+
+message ChangeRecords {
+string version=1;
+repeated ChangeRecord changeRecords = 2;
+}
+
+message ChangeRecord {
+string category = 1;
+UserInfo userInfo = 2;
+}
+
+message FriendListChange {
+ChangeRecord change = 1;
+string version = 2;
+}
+
+message ExternalRedPackageInfo {
+string hash_id = 1;
+UserInfo sender = 2;
+string tips = 3;
+string msg_id = 4;
+bool system = 5;
+}
+
+// socket
+message GroupChange {
+string identifier=1;
+int32 change_type=2;
+bytes detail=3;
+int32 count = 4;
+UserInfo invite_by=5;
+}
+
+message UserInfo {
+string username=1;
+string avatar=2;
+string pub_key=3;
+string uid=4;
+bool  recommend = 5;
+string connect_id = 6;
+int32 source = 7;
+int64  created_at=8;
+bool update_connect_id = 9;
+}
+
+message ProducerMsgDetail {
+int32 type = 1;
+int32 ext = 2;
+bytes data = 3;
+}
+
+message QuitMessage {
+string deviceName=1;
+}
+
+message IMResponse {
+string sign = 1;
+GcmData cipher_data = 2;
+}
+
+message OfflineMsg {
+string msg_id = 1;
+ProducerMsgDetail body = 2;
+}
+message OfflineMsgs {
+repeated OfflineMsg offlineMsgs = 1;
+bool completed = 2;
+}
+message NoticeMessage {
+int32 category = 1;
+bytes body = 2;
+string msg_id = 3;
+}
+
+// Aes GCM 密文
+message GcmData {
+bytes iv = 1;
+bytes aad = 2;
+bytes tag = 3;
+bytes ciphertext = 4;
+}
+
+message IMTransferData {
+string sign = 1;
+GcmData cipher_data = 2;
+}
+
+message Command {
+string msg_id=1;
+bytes detail=2;
+int32 err_no=3;
+string msg=4;
+}
+
+message RichMedia {
+bytes thumbnail =1;
+bytes entity=2;
+}
+
+message MediaFile {
+string pub_key = 1;
+string sign = 2;
+GcmData cipher_data = 3;
+}
+
+
+message StructData {
+bytes random=1;
+bytes plain_data=2;
+}
+
+
+message MessagePost {
+string pub_key = 1;
+string sign = 2;
+MessageData msg_data = 3;
+}
+
+message Reviewed {
+int32 category = 1;
+string identifier = 2;
+string tips = 3;
+UserInfo userInfo = 4;
+string verificationCode = 5;
+int32 source =6;
+string name = 7;
+}
+
+message ReviewedStatus {
+Reviewed review = 1;
+bool refused = 2;
+bool newaccept = 3;
+}
+
+message SystemRedPackage {
+int64 amount = 1;
+string hashId = 2;
+string tips = 3;
+}
+message UpdateMobileBind {
+string username = 1;
+}
+
+message AddressNotify {
+string txId = 1;
+int64 amount = 2;
+}
+
+message RemoveGroup {
+string name = 1;
+string groupId = 2;
+}
+
+message Announcement {
+float created_at = 1;
+string title = 2;
+string content = 3;
+string url = 4;
+int32 category = 5;
+string desc = 6;
+string covers_url = 7;
+string version = 8;
+}
+
+message SystemRedpackgeNotice {
+UserInfo receiver = 1;
+int64 amount = 2;
+string hashid = 3;
+}
+
+message ReviewedResponse {
+int32 category = 1;
+string identifier = 2;
+string name = 3;
+bool success = 4;
+}
+
+
+message GroupApplyChange {
+string verificationCode = 1;
+string tips = 2;
+int32 source =3;
+repeated string tips_history = 4;
+}
+
+message SystemTransferPackage {
+int64 amount = 1;
+string txid = 2;
+string tips = 3;
+string sender = 4;
+}
+
+//系统消息
+message MSMessage {
+string msg_id=1;
+bytes body=2;
+int32 category=3;
+}
+
+message RejectMessage {
+string msg_id = 1;
+string uid = 2;
+int32 status = 3;
+bytes data = 4;
+}
+
+message ChatCacheCookie {
+string chat_pub_key = 1;
+bytes salt = 2;
+string chat_privkey = 3;
+}
+
+message CreateGroupMessage {
+string identifier = 1;
+string secret_key = 2;
+}
+
+message ChatCookie {
+string sign = 1;
+ChatCookieData data = 2;
+}
+
+message Ack {
+string msg_id = 1;
+int32 type = 2;
+}
+
+message OfflineMsgAck {
+repeated string msg_ids=1;
+}
+
+message ChatCookieData {
+string chat_pub_key = 1;
+bytes salt = 2;
+int64  expired=3;
+}
+
+
+//传输层模型
+message MessageData {
+ChatMessage chat_msg = 1;
+ChatSession chat_session = 2;
+}
+
+//临时协同密钥
+message ChatSession {
+bytes salt = 1;
+bytes ver = 2;
+string pubKey = 3;
+}
+//消息体
+message ChatMessage {
+string msg_id = 1;
+int64 msg_time = 2;
+string from = 3;
+string to= 4;
+GcmData cipher_data = 5;
+ChatType chat_type=6;
+int32 msg_type = 7;
+string ext= 8;
+int32 send_status = 9;
+}
+
+//用户信息
+message MessageUserInfo{
+string uid=1;
+string username=2;
+string avatar=3;
+}
+//聊天类型
+enum ChatType {
+PRIVATE= 0; // 个人聊天
+GROUPCHAT  = 1;  //群组聊天
+CONNECT_SYSTEM = 2; // Connect
+}
+
+//文本消息
+message TimeMessage{
+string time=1;
+}
+
+//文本消息
+message TextMessage{
+string content=1;
+repeated string at_uids=2;
+int64 snap_time = 3;
+}
+//emoj表情
+message EmotionMessage{
+string content=1;
+int64 snap_time = 2;
+}
+//图片消息
+message PhotoMessage{
+string url=1;
+string thum=2;
+string size=3;
+int32 image_width=4;
+int32 image_height=5;
+int64 snap_time = 6;
+}
+//音频消息
+message VoiceMessage{
+string url=1;
+int32 time_length=2;
+int64 snap_time = 3;
+}
+//视频消息
+message VideoMessage{
+string url=1;
+string cover=2;
+int32 time_length=3;
+int32 size=4;
+int32 image_width=5;
+int32 image_height=6;
+int64 snap_time = 7;
+}
+//名片消息
+message CardMessage{
+string uid=1;
+string username=2;
+string avatar=3;
+}
+//开始阅后即焚
+message DestructMessage{
+int32 time=1;
+}
+//阅后即焚已读消息
+message ReadReceiptMessage{
+string message_id=1;
+}
+//收款消息
+message PaymentMessage{
+int32 payment_type=1;// 0:单人收款 1:众筹
+string hash_id=2;
+int64 amount=3;
+int32 member_size =4;
+string tips =5;
+}
+//转账消息
+message TransferMessage{
+int32  transfer_type=1;//0:单人转账 1:多人转账  2:外部转账
+string hash_id=2;
+int64 amount=3;
+string tips =4;
+}
+
+//红包消息
+message LuckPacketMessage{
+string hash_id=1;
+int32 lucky_type=2;//0:内部红包 1:外部红包 2:系统红包
+string tips =3;
+int64 amount=4;
+}
+
+//位置消息
+message LocationMessage{
+float latitude=1;
+float longitude=2;
+string address=3;
+string screen_shot=4;
+int32 image_width=5;
+int32 image_height=6;
+}
+
+//提示消息
+message NotifyMessage{
+int32 notify_type = 1; // 红包 普通提醒 红包带详情（hashid） eg。。。。
+string content = 2;
+string extion = 3;
+}
+//加入群组消息
+message JoinGroupMessage{
+string avatar=1;
+string group_name=2;
+string group_id=3;
+string token=4;
+}
+//外部链接消息
+message WebsiteMessage{
+string url=1;
+string title=2;
+string subtitle=3;
+string img=4;
+}
